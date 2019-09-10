@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户订单信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css"  media="all">
+    <link rel="stylesheet" type="text/css" href="../css/area.css" />
+</head>
+<body >
+<DIV style="margin-top: 10px;margin-left: 20%;" width="60%">
+    <form class="layui-form"lay-filter="example">
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input type="text" name="oid" id="oid" style="display:none;" />
+                <label class="layui-form-label">客户名:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="cname" id="cname" lay-verify="required" lay-reqtext="客户名是必填项，岂能为空？"
+                           placeholder="请输入客户名" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">货物名称:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="cargo" id="cargo" lay-verify="required"
+                           placeholder="请输入货物名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">订单名:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="oname" id="oname" lay-verify="required"
+                           placeholder="请输入订单名" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">单价:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="price" id="price"
+                           placeholder="请输入单价" autocomplete="off" class="layui-input" lay-verify="required" onblur="compute()">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">单数:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="number" id="number"  placeholder="请输入单数" lay-verify="required" autocomplete="off" class="layui-input" onblur="compute()" >
+                </div>
+                <label class="layui-form-label">总金额:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="total" id="total" autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">下单时间:</label>
+                <div class="layui-input-inline">
+                    <input name="odate" class="layui-input" id="odate" type="text" placeholder="请选择下单时间" autocomplete="off" lay-verify="date">
+                </div>
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <select name="ostatus" id="ostatus" lay-filter="ostatus">
+                        <option value="">请选状态</option>
+                        <option value="0" name="预先发货">预先发货</option>
+                        <option value="1" name="已付定金">已付定金</option>
+                        <option value="2" name="未结完款">未结完款</option>
+                        <option value="3" name="已结完款">已结完款</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">收货地址:</label>
+                <div class="layui-input-inline" >
+                    <div id="addAddress">
+                        <div class="address_input"><input class="layui-input" type="text" name="endaddress" id="endaddress" placeholder="请选择省市"  onClick="getProvinceBuy()" readonly="readonly"></div>
+                    </div>
+                </div>
+                <label class="layui-form-label">温馨建议:</label>
+                <div class="layui-input-inline">
+                    <textarea type="textarea" name="idea" id="idea" autocomplete="off"class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    <div class="layui-form-item" style="margin-left:48%">
+            <div class="layui-input-inline" >
+            <div style="float: right">
+            <button class="layui-btn" lay-submit="" lay-filter="btn-add">确认</button>
+            <button class="layui-btn layui-btn-primary" id="btn-reset">取消</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</DIV>
+</body>
+<script src="../assets/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="../js/area.js"></script>
+<script>
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+       //常规用法
+        laydate.render({
+            elem: '#odate'
+        });
+
+        //监听提交
+        form.on('submit(btn-add)', function(data){
+            console.log(data.field.oid)
+            if(isNaN(data.field.price)||isNaN(data.field.number)){
+                alert("单价、数量请输入正确数值")
+                return false
+            }
+            if(data.field.oid===""||data.field.oid===null){
+                $.ajax({
+                    url: "/app/clientorder/addClientOrder.action"
+                    , type: "post"
+                    , data:data.field
+                    , dataType: "json"
+                    , success: function (data) {
+                        if(data.msg=='OK'){
+
+                            if(data.msg=='OK')
+                            {
+                                alert(data.msg+"：添加成功");
+                                window.parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                            }else{
+                                layer.alert(data.msg+"：添加失败");
+                            }
+
+                        }
+
+                    }
+                });
+            }else{
+                $.ajax({
+                    url: "/app/clientorder/upClientOrder.action"  //API接口
+                    , type: "post"
+                    , data:data.field  //修改后的数据
+                    , dataType: "json"
+                    , success: function (data) {
+                        if(data.msg=='OK')
+                        {
+                            alert(data.msg+"：更新成功");
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        }else{
+                            alert(data.msg+"：更新失败");
+                        }
+                    }
+                });
+
+            }
+
+            return false;
+
+        });
+        $('#btn-reset').on('click', function(){
+            var r = confirm("确定取消吗？");
+            if (r == true) {
+                x = true;
+            } else {
+                x = false;
+            }
+            if(x){
+                window.parent.location.reload();
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+             return false
+
+
+        });
+
+    });
+
+</script>
+<script>
+    function compute(){
+        var price=parseFloat($("#price").val());
+        var number=parseFloat($("#number").val());
+        var total=price*number
+        $("#total").val(total);
+    }
+</script>
+</html>

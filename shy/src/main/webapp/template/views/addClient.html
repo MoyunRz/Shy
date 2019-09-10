@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css"  media="all">
+    <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/area.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/area.css" />
+</head>
+<body>
+<DIV style="margin-top: 5px;margin-left: 10%;" width="70%">
+    <form class="layui-form" action="" lay-filter="example">
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input type="text" name="id" id="id" style="display:none;" />
+                <label class="layui-form-label">客户名:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="cname" id="cname" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？"
+                       placeholder="请输入客户名" autocomplete="off" class="layui-input">
+            </div>
+                <label class="layui-form-label">职位:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="cposition" id="cposition" lay-verify="required"
+                           placeholder="请输入客户所任职位" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">手机号:</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="cphone" id="cphone" lay-verify="required|phone"  placeholder="请输入手机号" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline">
+                    <select name="sex" id="sex">
+                        <option value="">请选择性别</option>
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">所在地:</label>
+                <div class="layui-input-inline" >
+                   <div id="addAddress">
+                       <div class="address_input">
+                           <input class="layui-input" name="endaddress" type="text" placeholder="请选择省市" id="endaddress" onClick="getProvinceBuy()" readonly="readonly"
+                                  style="margin-bottom: 20px">
+                       </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="margin-left:40%">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="btn-readly">确认</button>
+                <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+            </div>
+        </div>
+    </form>
+</DIV>
+</body>
+<script src="../assets/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+       /** //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符啊';
+                }
+            }
+            ,pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ]
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+        });
+//监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+**/
+        //监听提交
+        form.on('submit(btn-readly)', function(data){
+            console.log(data.field.id)
+            if(data.field.id===""||data.field.id===null){
+                $.ajax({
+                    url: "/app/clientinf/addClientInf.action"
+                    , type: "post"
+                    , data:data.field
+                    , dataType: "json"
+                    , success: function (data) {
+                        if(data.msg=='OK'){
+
+                            if(data.msg=='OK')
+                            {
+                                alert(data.msg+"：添加成功");
+                                window.parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                            }else{
+                                layer.alert(data.msg+"：添加失败");
+                            }
+
+                        }
+
+                    }
+                });
+            }else{
+                $.ajax({
+                    url: "/app/clientinf/upClientInf.action"  //API接口
+                    , type: "post"
+                    , data:data.field  //修改后的数据
+                    , dataType: "json"
+                    , success: function (data) {
+                        if(data.msg=='OK')
+                        {
+                            alert(data.msg+"：更新成功");
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        }else{
+                            alert(data.msg+"：更新失败");
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+
+    });
+
+</script>
+
+</html>

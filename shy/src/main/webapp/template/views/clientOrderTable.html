@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>顾客订单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css"  media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+<div style="margin-top: 10px; margin-left: 10px" class="layui-form">
+        <div class="layui-form-item" >
+            <div class="layui-inline" >
+                <div class="layui-input-inline">
+                    <input type="text" name="cname" id="cname" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？"
+                      placeholder="请输入客户名" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-input-inline">
+                    <input name="odate"  class="layui-input" id="odate" type="text" placeholder="请选择下单时间" autocomplete="off" lay-verify="date">
+                </div>
+                <div class="layui-input-inline">
+                    <select name="ostatus" id="ostatus">
+                        <option value="-1">请选择订单状态</option>
+                        <option value="0">预先发货</option>
+                        <option value="1">已付定金</option>
+                        <option value="2">未结完款</option>
+                        <option value="3">已结完款</option>
+                    </select>
+                </div>
+
+                <button class="layui-btn" id="btn-search">搜索</button>
+                <button class="layui-btn" id="addOrder">新增</button>
+            </div>
+        </div>
+</div>
+<script type="text/html" id="toolbarDemo"></script>
+<table class="layui-table" id="client_order" lay-filter="client_order">
+
+</table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script  type="text/javascript" src="../assets/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.min.js" ></script>
+<script type="text/javascript" src="../js/common.js" ></script>
+<script type="text/javascript" src="../js/commons.js" ></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['table','laydate','layer'], function(){
+        const table = layui.table
+            ,layer = layui.layer
+            ,laydate = layui.laydate;
+        const $ = layui.jquery;
+        table.render({
+            elem: '#client_order'
+            ,url:'/app/clientorder/getClientOrderAll.action'
+            ,toolbar: '#toolbarDemo'
+            ,title: '客户订单数据表'
+            ,text:'无数据'
+            ,cellMinWidth: 90
+            ,totalRow: true
+            ,defaultToolbar: ['filter','print','exports']
+            ,id:'client_order'
+            ,cols: [[
+                 {field:'oid', align: 'center',title:'ID', width:120, fixed: 'left', unresize: true, sort: true, totalRowText: '金额汇总'}
+                ,{field:'cname', align: 'center',title:'顾客名', width:100}
+                ,{field:'cargo', align: 'center',title:'货物名称', width:100}
+                ,{field:'oname', align: 'center',title:'订单名', width:120}
+                ,{field:'price', align: 'center',title:'单价', width:90, sort: true}
+                ,{field:'number', align: 'center',title:'数量', width:90, sort: true}
+                ,{field:'total', align: 'center',title:'总金额', width:120, sort: true, totalRow: true}
+                ,{field:'odate', align: 'center',title:'下单时间',width:180}
+                ,{field:'ostatus',align: 'center', title:'订单状态', width:150}
+                ,{field:'endaddress',align: 'center', title:'订单状态', width:150}
+                ,{field: 'idea',align: 'center',title:'温馨建议', width:150}
+                ,{fixed: 'right', align: 'center',title:'操作', toolbar: '#barDemo', width:150}
+
+            ]]
+            ,done: function (res, curr, count) {
+                tableRowSpanNoFixedCol("client_order", "idea");
+                $("[data-field='ostatus']").children().each(function(){
+                    if($(this).text()=='0'){
+                        $(this).text("预先发货")
+                    }else if($(this).text()=='1'){
+                        $(this).text("已付定金")
+                    }else if($(this).text()=='2'){
+                        $(this).text("未结完款")
+                    }else if($(this).text()=='3'){
+                        $(this).text("已结完款")
+                    }
+                });
+
+            }
+            ,limit: 10
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count']
+                , groups: 3 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+            }
+            ,even: true//开启隔行背景
+
+        });
+        $('#addOrder').on('click', function(){
+            showModelWindow(layer,"addClientOrder.html","900px","500px","客户订单信息","addclientorder");
+        });
+
+        table.on('tool(client_order)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+               confirm('真的删除行么', function(index){
+                    table.reload('client_order', {
+                        url: '/app/clientorder/OrderdeleteById.action'//注销用户的接口
+                        ,where: {
+                            oid : data.oid      //提交的信息
+                        }
+                    });
+                    obj.del();
+                    close(index);
+                });
+            }
+            else if(obj.event === 'edit'){
+                showModelWindowByData(layui.layer, 'addClientOrder.html', '900px', '500px', '编辑', 'editclientorder', data);
+
+            }
+        });
+        <!--按名字搜索表格-->
+        $('#btn-search').on('click',function(){
+            table.reload('client_order', {
+                url: '/app/clientorder/getClientOrderByInf.action'//查询用户的接口
+                ,where: {
+                     cname : $('#cname').val() //提交的信息
+                    ,odate : $('#odate').val()
+                    ,ostatus :  $('#ostatus').val()
+                }
+                ,page: {
+                    curr: 1
+                }
+
+            });
+
+        });
+        //常规用法
+        laydate.render({
+            elem: '#odate'
+        });
+    });
+</script>
+
+</body>
+</html>

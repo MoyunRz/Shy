@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>员工假期</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css"  media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+
+<table class="layui-table" id="holiday" lay-filter="holiday"></table>
+<script type="text/html" id="toolbarDemo">
+    <div class="demoTable">
+        搜索员工：
+        <div class="layui-inline">
+            <input class="layui-input" name="selectName" id="selectName" id="demoReload" placeholder="查询员工名" autocomplete="off">
+        </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
+        <button class="layui-btn" data-type="addEmp">新增</button>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="settlement">结算</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script  type="text/javascript" src="../assets/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.min.js" ></script>
+<script type="text/javascript" src="../js/common.js" ></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#holiday'
+            ,url:''
+            ,toolbar: '#toolbarDemo'
+            ,title: '假期列表'
+            ,text:'无数据'
+            ,totalRow: true
+            ,defaultToolbar: ['filter','print','exports']
+            ,id:'holiday'
+            ,cols: [[
+                {field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
+                ,{field:'ename', title:'员工名', width:200, edit: 'text'}
+                ,{field:'position', title:'职位', width:180, edit: 'text'}
+                ,{field:'holiday', title:'假期', width:100, sort: true, totalRow: true}
+                ,{field:'cdate', title:'开始时间',width:100}
+                ,{field:'cdate', title:'结束时间',width:100}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
+            ]]
+            ,page: true
+            , data: [{
+                "id": "10001"
+                ,"mname": "钢铁"
+                ,"mdata": "2019-8-1"
+                ,"price": 2
+                ,"number":36
+                ,"total":72
+                ,"status": "已收货"
+                ,"master": "管理员"
+            }, {
+                "id": "10002"
+                ,"mname": "钢铁"
+                ,"mdata": "2019-8-1"
+                ,"price": 2
+                ,"number":36
+                ,"total":72
+                ,"status": "已收货"
+                ,"master": "管理员"
+            }, {
+                "id": "10003"
+                ,"mname": "钢铁"
+                ,"mdata": "2019-8-1"
+                ,"price": 2
+                ,"number":36
+                ,"total":72
+                ,"status": "已收货"
+                ,"master": "管理员"
+            }, {
+                "id": "10004"
+                ,"mname": "钢铁"
+                ,"mdata": "2019-8-1"
+                ,"price": 2
+                ,"number":36
+                ,"total":72
+                ,"status": "已收货"
+                ,"master": "管理员"
+            }, {
+                "id": "10005"
+                ,"mname": "钢铁"
+                ,"mdata": "2019-8-1"
+                ,"price": 2
+                ,"number":36
+                ,"total":72
+                ,"status": "已收货"
+                ,"master": "管理员"
+            }, {
+                "id": "10006"
+                ,"mname": "钢铁"
+                ,"mdata": "2019-8-1"
+                ,"price": 2
+                ,"number":36
+                ,"total":72
+                ,"status": "已收货"
+                ,"master": "管理员"
+            }, {
+                "id": "10007"
+                ,"mname": "钢铁"
+                ,"mdata": "2019-8-1"
+                ,"price": 2
+                ,"number":36
+                ,"total":72
+                ,"status": "已收货"
+                ,"master": "管理员"
+            }, {
+                "id": "10008"
+                ,"mname": "钢铁"
+                ,"mdata": "2019-8-1"
+                ,"price": 2
+                ,"number":36
+                ,"total":72
+                ,"status": "已收货"
+                ,"master": "管理员"
+            }]
+        });
+    });
+</script>
+
+</body>
+</html>

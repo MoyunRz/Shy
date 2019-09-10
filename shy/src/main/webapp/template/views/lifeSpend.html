@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <title>生活费用支出</title>
+</head>
+<body class="layui-view-body">
+<div class="layui-content" class="layui-form" lay-filter="example">
+    <div class="layui-row" style="margin-top: 5px;margin-left: 10%;" width="70%">
+        <div class="layui-card">
+            <div class="layui-card-header">生活费用</div>
+
+                <div class="layui-form-item">
+                    <input type="text" name="id" id="id" style="display:none;" />
+                    <label class="layui-form-label">用途</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="useText" id="useText" required  lay-verify="required" placeholder="请输入用途" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">金额</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sum" id="sum" required  lay-verify="required" placeholder="请输入金额" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">支出时间</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="spendtime" id="spendtime" type="text" placeholder="请选择时间">                        </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" type="button" id="btn-readly">确认</button>
+                        <button class="layui-btn" id="out">退出</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+<script src="../assets/layui.all.js"></script>
+<script src="../assets/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="../js/area.js"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,laydate = layui.laydate;
+        const $ = layui.jquery;
+
+        //常规用法
+        laydate.render({
+            elem: '#spendtime'
+        });
+        $('#out').on('click',function(){
+            window.parent.location.reload();
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+        //监听提交
+        $('#btn-readly').on('click',function(){
+
+
+            if($('#id').val()===""||$('#id').val()===null){
+                $.ajax({
+                    url: "/app/lifespend/addLifeSpend.action"
+                    , type: "post"
+                    , data:{
+                        id:$('#id').val(),
+                        useText:$('#useText').val(),
+                        sum:$('#sum').val(),
+                        spendtime:$('#spendtime').val()
+                    }
+                    , dataType: "json"
+                    , success: function (data) {
+                       layer.alert(data.data);
+
+                    }
+                });
+            }else{
+                $.ajax({
+                    url: "/app/lifespend/upLifeSpend.action"  //API接口
+                    , type: "post"
+                    , data:{
+                        id:$('#id').val(),
+                        useText:$('#useText').val(),
+                        sum:$('#sum').val(),
+                        spendtime:$('#spendtime').val()
+                }
+                    , dataType: "json"
+                    , success: function (data) {
+                        if(data.msg=='OK')
+                        {
+                            alert(data.msg+"：更新成功");
+                            window.parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        }else{
+                            alert(data.msg+"：更新失败");
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>生活费用细明</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css"  media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+<div style="margin-top: 10px; margin-left: 10px" class="layui-form">
+    <div class="layui-form-item" >
+        搜索客户：
+        <div class="layui-inline">
+            <input name="spendtime"  class="layui-input" id="spendtime" type="text" placeholder="请选择时间" autocomplete="off" />
+        </div>
+        <button class="layui-btn" id="search">搜索</button>
+        <button class="layui-btn" id="add">新增</button>
+    </div>
+</div>
+<table class="layui-table" id="life" lay-filter="life" lay-skin="line"></table>
+
+<script type="text/html" id="toolbarDemo">
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/javascript" src="../assets/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.min.js" ></script>
+<script type="text/javascript" src="../js/common.js" ></script>
+<script type="text/javascript" src="../js/commons.js" ></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['table','form', 'layedit', 'laydate'], function(){
+        var table = layui.table
+            ,layer = layui.layer
+            ,laydate = layui.laydate;
+        const $ = layui.jquery;
+
+        laydate.render({
+            elem: '#spendtime'
+        });
+        table.render({
+            elem: '#life'
+            ,url:'/app/lifespend/getLifeSpendAll.action'
+            ,toolbar: '#toolbarDemo'
+            ,title: '客户列表'
+            ,id:'life'
+            ,cols: [[
+                {field: 'id', title: 'ID', width: 100, sort: true}
+                ,{field: 'useText', title: '使用途径', width: 200}
+                ,{field: 'sum', title: '金额', width: 150}
+                ,{field: 'spendtime', title: '支出时间',width: 160}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
+            ]]
+            ,page: true
+            //,skin: 'line' //表格风格
+            ,even: true
+            //,page: true //是否显示分页
+            //,limits: [5, 7, 10]
+            ,limit: 10 //每页默认显示的数量
+        });
+
+        $('#search').on('click',function(){
+            table.reload('life', {
+                url: '/app/lifespend/getLifeSpendByInf.action'
+                ,where: {
+                    spendtime:$('#spendtime').val() //提交的信息
+                }
+                ,page: {
+                    curr: 1
+                }
+            });
+        });
+        $('#add').on('click', function(){
+            showModelWindow(layer,"lifeSpend.html","900px","400px","新增","addlifeSpend");
+        });
+        //工具栏事件
+        table.on('tool(life)', function(obj){
+            var data = obj.data;
+
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    table.reload('life', {
+                        url: '/app/lifespend/deleteById.action'//注销用户的接口
+                        ,where: {
+                            id : data.id      //提交的信息
+                        }
+                        ,page:
+                            {curr:1}
+                    });
+                    obj.del();
+                    layer.close(index);
+                });
+            }
+            else if(obj.event === 'edit'){
+                showModelWindowByData(layui.layer, 'lifeSpend.html', '900px', '400px', '编辑', 'editmaterial', data);
+
+            }
+
+        });
+    });
+</script>
+
+</body>
+</html>
