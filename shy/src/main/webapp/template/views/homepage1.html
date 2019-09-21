@@ -71,7 +71,7 @@
     //折线图
     var line = echarts.init(document.getElementById('line'));
     $.ajax({
-        url: "/app/clientorder/getYearlyPerformance.action"  //API接口
+        url: "/shy_war/app/clientorder/getYearlyPerformance.action"  //API接口
         , type: "post"
         , data:{
             tYear: tYear
@@ -151,7 +151,7 @@
     $('#btn-search').on('click',function () {
         tYear=$('#tyear').val();
         $.ajax({
-            url: "/app/clientorder/getYearlyPerformance.action"  //API接口
+            url: "/shy_war/app/clientorder/getYearlyPerformance.action"  //API接口
             , type: "post"
             , data:{
                 tYear: tYear

@@ -45,7 +45,7 @@
         });
         table.render({
             elem: '#life'
-            ,url:'/app/lifespend/getLifeSpendAll.action'
+            ,url:'/shy_war/app/lifespend/getLifeSpendAll.action'
             ,toolbar: '#toolbarDemo'
             ,title: '客户列表'
             ,id:'life'
@@ -66,7 +66,7 @@
 
         $('#search').on('click',function(){
             table.reload('life', {
-                url: '/app/lifespend/getLifeSpendByInf.action'
+                url: '/shy_war/app/lifespend/getLifeSpendByInf.action'
                 ,where: {
                     spendtime:$('#spendtime').val() //提交的信息
                 }
@@ -85,7 +85,7 @@
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     table.reload('life', {
-                        url: '/app/lifespend/deleteById.action'//注销用户的接口
+                        url: '/shy_war/app/lifespend/deleteById.action'//注销用户的接口
                         ,where: {
                             id : data.id      //提交的信息
                         }

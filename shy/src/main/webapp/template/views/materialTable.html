@@ -51,7 +51,7 @@
         const $ = layui.jquery;
         table.render({
             elem: '#material'
-            ,url:'/app/material/getMaterialAll.action'
+            ,url:'/shy_war/app/material/getMaterialAll.action'
             ,toolbar: '#toolbarDemo'
             ,title: '材料购买数据表'
             ,text:'无数据'
@@ -97,7 +97,7 @@
         <!--按名字搜索表格-->
         $('#search').on('click',function(){
             table.reload('material', {
-                url: '/app/material/getMaterialByInf.action'
+                url: '/shy_war/app/material/getMaterialByInf.action'
                 ,where: {
                      mname : $('#mname').val() //提交的信息
                     ,mSdate : $('#mdate').val()
@@ -114,7 +114,7 @@
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     table.reload('material', {
-                        url: '/app/material/deleteById.action'//注销用户的接口
+                        url: '/shy_war/app/material/deleteById.action'//注销用户的接口
                         ,where: {
                             id : data.id      //提交的信息
                         }

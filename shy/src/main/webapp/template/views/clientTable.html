@@ -42,7 +42,7 @@
         const $ = layui.jquery;
         table.render({
             elem: '#client'
-            ,url:'/app/clientinf/getClientInfAll.action'
+            ,url:'/shy_war/app/clientinf/getClientInfAll.action'
             ,title: '客户列表'
             ,text:'无数据'
             ,id:'client'
@@ -84,7 +84,7 @@
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     table.reload('client', {
-                        url: '/app/clientinf/deleteById.action'//注销用户的接口
+                        url: '/shy_war/app/clientinf/deleteById.action'//注销用户的接口
                         ,where: {
                             id : data.id      //提交的信息
                         }
@@ -105,7 +105,7 @@
         <!--按名字搜索表格-->
         $('#btn-search').on('click',function(){
             table.reload('client', {
-                url: '/app/clientinf/getClientInfByInf.action'//查询用户的接口
+                url: '/shy_war/app/clientinf/getClientInfByInf.action'//查询用户的接口
                 ,where: {
                     cname: $('#cname').val() //提交的信息
                 }

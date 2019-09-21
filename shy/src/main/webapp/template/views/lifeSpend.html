@@ -68,7 +68,7 @@
 
             if($('#id').val()===""||$('#id').val()===null){
                 $.ajax({
-                    url: "/app/lifespend/addLifeSpend.action"
+                    url: "/shy_war/app/lifespend/addLifeSpend.action"
                     , type: "post"
                     , data:{
                         id:$('#id').val(),
@@ -84,7 +84,7 @@
                 });
             }else{
                 $.ajax({
-                    url: "/app/lifespend/upLifeSpend.action"  //API接口
+                    url: "/shy_war/app/lifespend/upLifeSpend.action"  //API接口
                     , type: "post"
                     , data:{
                         id:$('#id').val(),

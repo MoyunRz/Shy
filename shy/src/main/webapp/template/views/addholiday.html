@@ -91,7 +91,7 @@
             console.log(data.field.id)
             if(data.field.id===""||data.field.id===null){
                 $.ajax({
-                    url: "/app/eholiday/addEHoliday.action"
+                    url: "/shy_war/app/eholiday/addEHoliday.action"
                     , type: "post"
                     , data:data.field
                     , dataType: "json"
@@ -111,7 +111,7 @@
                 });
             }else{
                 $.ajax({
-                    url: "/app/eholiday/upEHoliday.action"  //API接口
+                    url: "/shy_war/app/eholiday/upEHoliday.action"  //API接口
                     , type: "post"
                     , data:data.field  //修改后的数据
                     , dataType: "json"

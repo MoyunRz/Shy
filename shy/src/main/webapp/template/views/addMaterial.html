@@ -88,7 +88,7 @@
             }
             if(data.field.id===""||data.field.id===null){
                 $.ajax({
-                    url: "/app/material/addMaterial.action"
+                    url: "/shy_war/app/material/addMaterial.action"
                     , type: "post"
                     , data:data.field
                     , dataType: "json"
@@ -111,7 +111,7 @@
                 });
             }else{
                 $.ajax({
-                    url: "/app/material/upMaterial.action"  //API接口
+                    url: "/shy_war/app/material/upMaterial.action"  //API接口
                     , type: "post"
                     , data:data.field  //修改后的数据
                     , dataType: "json"

@@ -41,7 +41,7 @@
         var table = layui.table;
         table.render({
             elem: '#holiday'
-            ,url:'/app/eholiday/getEHolidayAll.action'
+            ,url:'/shy_war/app/eholiday/getEHolidayAll.action'
             ,toolbar: '#toolbarDemo'
             ,title: '假期列表'
             ,text:'无数据'
@@ -65,7 +65,7 @@
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     table.reload('holiday', {
-                        url: '/app/eholiday/deleteById.action'
+                        url: '/shy_war/app/eholiday/deleteById.action'
                         ,where: {
                             id:data.id         //提交的信息
                         }
@@ -82,7 +82,7 @@
         });
         $('#btn-search').on('click',function(){
             table.reload('holiday', {
-                url: '/app/eholiday/getEHolidayByInf.action'//查询用户的接口
+                url: '/shy_war/app/eholiday/getEHolidayByInf.action'//查询用户的接口
                 ,where: {
                     ename : $('#ename').val() //提交的信息
                 }

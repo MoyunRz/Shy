@@ -56,7 +56,7 @@
         const $ = layui.jquery;
         table.render({
             elem: '#client_order'
-            ,url:'/app/clientorder/getClientOrderAll.action'
+            ,url:'/shy_war/app/clientorder/getClientOrderAll.action'
             ,toolbar: '#toolbarDemo'
             ,title: '客户订单数据表'
             ,text:'无数据'
@@ -113,7 +113,7 @@
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     table.reload('client_order', {
-                        url: '/app/clientorder/OrderdeleteById.action'                        ,where: {
+                        url: '/shy_war/app/clientorder/OrderdeleteById.action'                        ,where: {
                             oid : data.oid       //提交的信息
                         }
                         ,page:
@@ -132,7 +132,7 @@
         <!--按名字搜索表格-->
         $('#btn-search').on('click',function(){
             table.reload('client_order', {
-                url: '/app/clientorder/getClientOrderByInf.action'//查询用户的接口
+                url: '/shy_war/app/clientorder/getClientOrderByInf.action'//查询用户的接口
                 ,where: {
                      cname : $('#cname').val() //提交的信息
                     ,odate : $('#odate').val()

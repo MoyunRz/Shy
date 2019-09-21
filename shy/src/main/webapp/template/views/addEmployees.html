@@ -106,7 +106,7 @@
             console.log(data.field.oid)
             if(data.field.id===""||data.field.id===null){
                 $.ajax({
-                    url: "/app/employees/addEmployees.action"
+                    url: "/shy_war/app/employees/addEmployees.action"
                     , type: "post"
                     , data:data.field
                     , dataType: "json"
@@ -127,7 +127,7 @@
                 });
             }else{
                 $.ajax({
-                    url: "/app/employees/upEmployees.action"  //API接口
+                    url: "/shy_war/app/employees/upEmployees.action"  //API接口
                     , type: "post"
                     , data:data.field  //修改后的数据
                     , dataType: "json"

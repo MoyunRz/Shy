@@ -109,7 +109,7 @@
             console.log(data.field.id)
             if(data.field.id===""||data.field.id===null){
                 $.ajax({
-                    url: "/app/clientinf/addClientInf.action"
+                    url: "/shy_war/app/clientinf/addClientInf.action"
                     , type: "post"
                     , data:data.field
                     , dataType: "json"
@@ -132,7 +132,7 @@
                 });
             }else{
                 $.ajax({
-                    url: "/app/clientinf/upClientInf.action"  //API接口
+                    url: "/shy_war/app/clientinf/upClientInf.action"  //API接口
                     , type: "post"
                     , data:data.field  //修改后的数据
                     , dataType: "json"

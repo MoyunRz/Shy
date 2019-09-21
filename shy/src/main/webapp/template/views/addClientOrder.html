@@ -124,7 +124,7 @@
             }
             if(data.field.oid===""||data.field.oid===null){
                 $.ajax({
-                    url: "/app/clientorder/addClientOrder.action"
+                    url: "/shy_war/app/clientorder/addClientOrder.action"
                     , type: "post"
                     , data:data.field
                     , dataType: "json"
@@ -147,7 +147,7 @@
                 });
             }else{
                 $.ajax({
-                    url: "/app/clientorder/upClientOrder.action"  //API接口
+                    url: "/shy_war/app/clientorder/upClientOrder.action"  //API接口
                     , type: "post"
                     , data:data.field  //修改后的数据
                     , dataType: "json"

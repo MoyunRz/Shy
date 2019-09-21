@@ -135,7 +135,7 @@
         var tmonth =myDate.getMonth()+ 1;
         // 本月销售量
         $.ajax({
-            url: "/app/clientorder/getMonthlyPerformance.action"  //API接口
+            url: "/shy_war/app/clientorder/getMonthlyPerformance.action"  //API接口
             , type: "post"
             , data:{
                 tYear: tYear,
@@ -150,7 +150,7 @@
             }
         });
         $.ajax({
-            url: "/app/material/getMonthlyPerformance.action"  //API接口
+            url: "/shy_war/app/material/getMonthlyPerformance.action"  //API接口
             , type: "post"
             , data:""
             , dataType: "json"
@@ -159,7 +159,7 @@
             }
         });
         $.ajax({
-            url: "/app/clientinf/getClientCount.action"  //API接口
+            url: "/shy_war/app/clientinf/getClientCount.action"  //API接口
             , type: "post"
             , data:"" //修改后的数据
             , dataType: "json"
@@ -171,7 +171,7 @@
             var table = layui.table;
             table.render({
                 elem: '#holiday'
-                ,url:'/app/eholiday/getEHolidayAll.action'
+                ,url:'/shy_war/app/eholiday/getEHolidayAll.action'
                 ,toolbar: '#toolbarDemo'
                 ,title: '假期列表'
                 ,text:'无数据'

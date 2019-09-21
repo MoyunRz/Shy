@@ -42,7 +42,7 @@
         var table = layui.table;
         table.render({
             elem: '#employees'
-            ,url:'/app/employees/getEmployeesAll.action'
+            ,url:'/shy_war/app/employees/getEmployeesAll.action'
             ,toolbar: '#toolbarDemo'
             ,title: '员工列表'
             ,text:'无数据'
@@ -78,7 +78,7 @@
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     table.reload('employees', {
-                        url: '/app/employees/deleteById.action'
+                        url: '/shy_war/app/employees/deleteById.action'
                         ,where: {
                             id:data.id              //提交的信息
                         }
@@ -104,7 +104,7 @@
         <!--按名字搜索表格-->
         $('#btn-search').on('click',function(){
             table.reload('employees', {
-                url: '/app/employees/getEmployeesByInf.action'//查询用户的接口
+                url: '/shy_war/app/employees/getEmployeesByInf.action'//查询用户的接口
                 ,where: {
                     ename : $('#ename').val() //提交的信息
                 }

@@ -48,7 +48,7 @@
         var table = layui.table;
         table.render({
             elem: '#account'
-            ,url:'/app/account/getAccountAll.action'
+            ,url:'/shy_war/app/account/getAccountAll.action'
             ,toolbar: '#toolbarDemo'
             ,title: '工资发放记录'
             ,text:'无数据'
@@ -93,7 +93,7 @@
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     table.reload('account', {
-                        url: '/app/account/deleteById.action'//注销用户的接口
+                        url: '/shy_war/app/account/deleteById.action'//注销用户的接口
                         ,where: {
                             id : data.id      //提交的信息
                         }
@@ -111,7 +111,7 @@
         <!--按名字搜索表格-->
         $('#btn-search').on('click',function(){
             table.reload('account', {
-                url: '/app/account/getAccountByInf.action'//查询用户的接口
+                url: '/shy_war/app/account/getAccountByInf.action'//查询用户的接口
                 ,where: {
                      ename : $('#ename').val() //提交的信息
                     ,wstatus:$('#wstatus').val() //提交的信息

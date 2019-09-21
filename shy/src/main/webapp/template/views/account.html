@@ -93,7 +93,7 @@
             console.log(data.field.id)
             if(data.field.id===""||data.field.id===null){
                 $.ajax({
-                    url: "/app/account/addAccount.action"
+                    url: "/shy_war/app/account/addAccount.action"
                     , type: "post"
                     , data:data.field
                     , dataType: "json"
@@ -116,7 +116,7 @@
                 });
             }else{
                 $.ajax({
-                    url: "/app/account/upAccount.action"  //API接口
+                    url: "/shy_war/app/account/upAccount.action"  //API接口
                     , type: "post"
                     , data:data.field  //修改后的数据
                     , dataType: "json"
