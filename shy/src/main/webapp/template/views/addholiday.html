@@ -39,37 +39,35 @@
 
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">工资:</label>
+                <label class="layui-form-label">假期:</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="wage" id="wage" lay-verify="required"
+                    <input type="text" name="holiday" id="holiday" lay-verify="required"
                            placeholder="请输入工资" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">发工资时间:</label>
+                <label class="layui-form-label">开始时间:</label>
                 <div class="layui-input-inline">
-                    <input name="enddate" class="layui-input" id="enddate" type="text" placeholder="请选择发工资时间" autocomplete="off" lay-verify="date">
+                    <input name="sdate" class="layui-input" id="sdate" type="text" placeholder="请选择开始时间" autocomplete="off" lay-verify="date">
                 </div>
             </div>
         </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">结算状态</label>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">温馨建议:</label>
                 <div class="layui-input-inline">
-                    <select name="wstatus" id="wstatus">
-                        <option value="-1">请选择结算状态</option>
-                        <option value="1">已发</option>
-                        <option value="0">未发</option>
-                    </select>
+                    <textarea type="textarea" name="ps" id="ps" autocomplete="off"class="layui-textarea"></textarea>
                 </div>
             </div>
-            <div class="layui-form-item" width="30px">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="btn-readly">确认</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>
-                </div>
+        </div>
+        <div class="layui-form-item" width="30px">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="btn-readly">确认</button>
+                <button type="reset" class="layui-btn layui-btn-primary">取消</button>
             </div>
+        </div>
 
     </form>
 </DIV>
@@ -87,13 +85,13 @@
 
         //常规用法
         laydate.render({
-            elem: '#enddate'
+            elem: '#sdate'
         });
         form.on('submit(btn-readly)', function(data){
             console.log(data.field.id)
             if(data.field.id===""||data.field.id===null){
                 $.ajax({
-                    url: "/app/account/addAccount.action"
+                    url: "/app/eholiday/addEHoliday.action"
                     , type: "post"
                     , data:data.field
                     , dataType: "json"
@@ -102,12 +100,9 @@
 
                             if(data.msg=='OK')
                             {
-                                alert(data.msg+"：添加成功");
-                                window.parent.location.reload();
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
+                                alert(data.msg);
                             }else{
-                                layer.alert(data.msg+"：添加失败");
+                                layer.alert(data.msg);
                             }
 
                         }
@@ -116,7 +111,7 @@
                 });
             }else{
                 $.ajax({
-                    url: "/app/account/upAccount.action"  //API接口
+                    url: "/app/eholiday/upEHoliday.action"  //API接口
                     , type: "post"
                     , data:data.field  //修改后的数据
                     , dataType: "json"

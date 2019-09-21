@@ -10,18 +10,21 @@
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-
-
+<div style="margin-top: 10px; margin-left: 10px" class="layui-form">
+    <div class="layui-form-item" >
+        <div class="layui-inline" >
+            <div class="layui-input-inline">
+                <input type="text" name="ename" id="ename" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？"
+                       placeholder="请输入员工名" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn" id="btn-search">搜索</button>
+            <button class="layui-btn layui-btn-normal" id="add">新增</button>
+        </div>
+    </div>
+</div>
 <table class="layui-table" id="employees" lay-filter="employees"></table>
 <script type="text/html" id="toolbarDemo">
-    <div class="demoTable">
-        搜索员工：
-        <div class="layui-inline">
-            <input class="layui-input" name="selectName" id="selectName" id="demoReload" placeholder="查询员工名" autocomplete="off">
-        </div>
-        <button class="layui-btn" data-type="reload">搜索</button>
-        <button class="layui-btn" data-type="addEmp">新增</button>
-    </div>
+        <div class="demoTable"> </div>
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="settlement">结算</a>
@@ -32,13 +35,14 @@
 <script  type="text/javascript" src="../assets/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="../js/jquery.min.js" ></script>
 <script type="text/javascript" src="../js/common.js" ></script>
+<script type="text/javascript" src="../js/commons.js" ></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-    layui.use('table', function(){
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'slider'], function(){
         var table = layui.table;
         table.render({
             elem: '#employees'
-            ,url:''
+            ,url:'/app/employees/getEmployeesAll.action'
             ,toolbar: '#toolbarDemo'
             ,title: '员工列表'
             ,text:'无数据'
@@ -47,90 +51,74 @@
             ,id:'employees'
             ,cols: [[
                  {field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
-                ,{field:'ename', title:'员工名', width:200, edit: 'text'}
-                ,{field:'position', title:'职位', width:180, edit: 'text'}
-                ,{field:'phone', title:'手机号', width:100, sort: true}
-                ,{field:'age', title:'年龄', width:100, sort: true}
+                ,{field:'ename', title:'员工名', width:100}
+                ,{field:'position', title:'职位', width:80}
+                ,{field:'ephone', title:'手机号', width:150, sort: true}
+                ,{field:'age', title:'年龄', width:80, sort: true}
+                ,{field:'sex', title:'性别', width:80}
+                ,{field:'endaddress', title:'地址', width:180}
                 ,{field:'wage', title:'工资', width:100, sort: true, totalRow: true}
                 ,{field:'cdate', title:'结算时间',width:100}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:250}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:220}
             ]]
+            ,done: function (res, curr, count) {
+                $("[data-field='sex']").children().each(function(){
+                    if($(this).text()=='0'){
+                        $(this).text("男")
+                    }else if($(this).text()=='1'){
+                        $(this).text("女")
+                    }
+                });
+            }
             ,page: true
-            , data: [{
-                "id": "10001"
-                ,"mname": "钢铁"
-                ,"mdata": "2019-8-1"
-                ,"price": 2
-                ,"number":36
-                ,"total":72
-                ,"status": "已收货"
-                ,"master": "管理员"
-            }, {
-                "id": "10002"
-                ,"mname": "钢铁"
-                ,"mdata": "2019-8-1"
-                ,"price": 2
-                ,"number":36
-                ,"total":72
-                ,"status": "已收货"
-                ,"master": "管理员"
-            }, {
-                "id": "10003"
-                ,"mname": "钢铁"
-                ,"mdata": "2019-8-1"
-                ,"price": 2
-                ,"number":36
-                ,"total":72
-                ,"status": "已收货"
-                ,"master": "管理员"
-            }, {
-                "id": "10004"
-                ,"mname": "钢铁"
-                ,"mdata": "2019-8-1"
-                ,"price": 2
-                ,"number":36
-                ,"total":72
-                ,"status": "已收货"
-                ,"master": "管理员"
-            }, {
-                "id": "10005"
-                ,"mname": "钢铁"
-                ,"mdata": "2019-8-1"
-                ,"price": 2
-                ,"number":36
-                ,"total":72
-                ,"status": "已收货"
-                ,"master": "管理员"
-            }, {
-                "id": "10006"
-                ,"mname": "钢铁"
-                ,"mdata": "2019-8-1"
-                ,"price": 2
-                ,"number":36
-                ,"total":72
-                ,"status": "已收货"
-                ,"master": "管理员"
-            }, {
-                "id": "10007"
-                ,"mname": "钢铁"
-                ,"mdata": "2019-8-1"
-                ,"price": 2
-                ,"number":36
-                ,"total":72
-                ,"status": "已收货"
-                ,"master": "管理员"
-            }, {
-                "id": "10008"
-                ,"mname": "钢铁"
-                ,"mdata": "2019-8-1"
-                ,"price": 2
-                ,"number":36
-                ,"total":72
-                ,"status": "已收货"
-                ,"master": "管理员"
-            }]
-        });
 
+        });
+        table.on('tool(employees)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    table.reload('employees', {
+                        url: '/app/employees/deleteById.action'
+                        ,where: {
+                            id:data.id              //提交的信息
+                        }
+                        ,page:
+                            {curr:1}
+                    });
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                showModelWindowByData(layui.layer, 'addEmployees.html', '900px', '500px', '编辑', 'addEmployees', data);
+
+            }
+            else if(obj.event === 'settlement'){
+                data.id="";
+                showModelWindowByData(layui.layer, 'account.html', '900px', '500px', '结算工资', 'account', data);
+
+            }else if(obj.event === 'getholiday'){
+                showModelWindowByData(layui.layer, 'addholiday.html', '900px', '500px', '休假', 'addholiday', data);
+
+            }
+        });
+        <!--按名字搜索表格-->
+        $('#btn-search').on('click',function(){
+            table.reload('employees', {
+                url: '/app/employees/getEmployeesByInf.action'//查询用户的接口
+                ,where: {
+                    ename : $('#ename').val() //提交的信息
+                }
+                ,page: {
+                    curr: 1
+                }
+                ,text:'无数据'
+
+            });
+
+        });
+        $('#add').on('click',function(){
+            showModelWindow(layer, 'addEmployees.html', '900px', '500px', '添加', 'addEmployees');
+        });
 
     });
 </script>

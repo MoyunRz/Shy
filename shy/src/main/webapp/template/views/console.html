@@ -18,7 +18,9 @@
                                 <div class="meta">
                                     <span>客户数</span>
                                 </div>
-                                <div class="total">126,560</div>
+                                <div class="total" >
+                                    <H4 id="clientNumber"></H4>
+                                </div>
                             </div>
                         </div>
                         <div class="chart-body">
@@ -38,7 +40,9 @@
                                 <div class="meta">
                                     <span>本月已结算额</span>
                                 </div>
-                                <div class="total">126,560</div>
+                                <div class="total">
+                                    <H4 id="total"></H4>
+                                </div>
                             </div>
                         </div>
                         <div class="chart-body">
@@ -56,9 +60,11 @@
                         <div class="chart-header">
                             <div class="metawrap">
                                 <div class="meta">
-                                    <span>未结算额</span>
+                                    <span>本月未结算额</span>
                                 </div>
-                                <div class="total">126,560</div>
+                                <div class="total">
+                                    <H4 id="nototal"></H4>
+                                </div>
                             </div>
                         </div>
                         <div class="chart-body">
@@ -76,9 +82,11 @@
                         <div class="chart-header">
                             <div class="metawrap">
                                 <div class="meta">
-                                    <span>全部欠款</span>
+                                    <span>全部未结算额</span>
                                 </div>
-                                <div class="total">126,560</div>
+                                <div class="total">
+                                    <H4 id="alltotal"></H4>
+                                </div>
                             </div>
                         </div>
                         <div class="chart-body">
@@ -99,7 +107,7 @@
                         </ul>
                         <div class="layui-tab-content">
                             <div class="layui-tab-item layui-show">
-                                12860
+                                <H4 id="pay"></H4>
                             </div>
                             <div class="layui-tab-item">
                                 <div class="layui-row layui-col-space15">
@@ -122,11 +130,48 @@
     <script type="text/javascript" src="../js/jquery.min.js" ></script>
     <script type="text/javascript" src="../js/common.js" ></script>
     <script>
+        var myDate = new Date();
+        var tYear = myDate.getFullYear();
+        var tmonth =myDate.getMonth()+ 1;
+        // 本月销售量
+        $.ajax({
+            url: "/app/clientorder/getMonthlyPerformance.action"  //API接口
+            , type: "post"
+            , data:{
+                tYear: tYear,
+                tmonth:tmonth
+            }
+            , dataType: "json"
+            , success: function (data) {
+                $('#total').text(data.data.performance);
+                $('#nototal').text(data.data.noperformance);
+                $('#alltotal').text(data.data.allperformance);
+
+            }
+        });
+        $.ajax({
+            url: "/app/material/getMonthlyPerformance.action"  //API接口
+            , type: "post"
+            , data:""
+            , dataType: "json"
+            , success: function (data) {
+                $('#pay').text(data.data.pay+"元");
+            }
+        });
+        $.ajax({
+            url: "/app/clientinf/getClientCount.action"  //API接口
+            , type: "post"
+            , data:"" //修改后的数据
+            , dataType: "json"
+            , success: function (data) {
+                $('#clientNumber').text(data.data);
+            }
+        });
         layui.use('table', function(){
             var table = layui.table;
             table.render({
                 elem: '#holiday'
-                ,url:''
+                ,url:'/app/eholiday/getEHolidayAll.action'
                 ,toolbar: '#toolbarDemo'
                 ,title: '假期列表'
                 ,text:'无数据'
@@ -138,85 +183,13 @@
                     ,{field:'ename', title:'员工名', width:90, edit: 'text'}
                     ,{field:'position', title:'职位', width:90, edit: 'text'}
                     ,{field:'holiday', title:'假期', width:100, sort: true}
-                    ,{field:'cdate', title:'开始时间',width:150,sort: true}
-                    ,{field:'cdate', title:'结束时间',width:150,sort: true}
+                    ,{field:'sdate', title:'开始时间',width:150,sort: true}
+                    ,{field:'edate', title:'结束时间',width:150,sort: true}
                 ]]
                 ,page: true
-                , data: [{
-                    "id": "10001"
-                    ,"mname": "钢铁"
-                    ,"mdata": "2019-8-1"
-                    ,"price": 2
-                    ,"number":36
-                    ,"total":72
-                    ,"status": "已收货"
-                    ,"master": "管理员"
-                }, {
-                    "id": "10002"
-                    ,"mname": "钢铁"
-                    ,"mdata": "2019-8-1"
-                    ,"price": 2
-                    ,"number":36
-                    ,"total":72
-                    ,"status": "已收货"
-                    ,"master": "管理员"
-                }, {
-                    "id": "10003"
-                    ,"mname": "钢铁"
-                    ,"mdata": "2019-8-1"
-                    ,"price": 2
-                    ,"number":36
-                    ,"total":72
-                    ,"status": "已收货"
-                    ,"master": "管理员"
-                }, {
-                    "id": "10004"
-                    ,"mname": "钢铁"
-                    ,"mdata": "2019-8-1"
-                    ,"price": 2
-                    ,"number":36
-                    ,"total":72
-                    ,"status": "已收货"
-                    ,"master": "管理员"
-                }, {
-                    "id": "10005"
-                    ,"mname": "钢铁"
-                    ,"mdata": "2019-8-1"
-                    ,"price": 2
-                    ,"number":36
-                    ,"total":72
-                    ,"status": "已收货"
-                    ,"master": "管理员"
-                }, {
-                    "id": "10006"
-                    ,"mname": "钢铁"
-                    ,"mdata": "2019-8-1"
-                    ,"price": 2
-                    ,"number":36
-                    ,"total":72
-                    ,"status": "已收货"
-                    ,"master": "管理员"
-                }, {
-                    "id": "10007"
-                    ,"mname": "钢铁"
-                    ,"mdata": "2019-8-1"
-                    ,"price": 2
-                    ,"number":36
-                    ,"total":72
-                    ,"status": "已收货"
-                    ,"master": "管理员"
-                }, {
-                    "id": "10008"
-                    ,"mname": "钢铁"
-                    ,"mdata": "2019-8-1"
-                    ,"price": 2
-                    ,"number":36
-                    ,"total":72
-                    ,"status": "已收货"
-                    ,"master": "管理员"
-                }]
             });
         });
+
     </script>
     <script>
      var element = layui.element;

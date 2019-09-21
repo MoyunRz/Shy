@@ -17,7 +17,7 @@
                     <input type="text" name="id" id="id" style="display:none;" />
                     <label class="layui-form-label">用途</label>
                     <div class="layui-input-block">
-                        <input type="text" name="useText" id="useText" required  lay-verify="required" placeholder="请输入用途" autocomplete="off" class="layui-input">
+                        <textarea type="textarea" name="useText" id="useText" autocomplete="off"class="layui-textarea" style="height: 80px"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -96,12 +96,12 @@
                     , success: function (data) {
                         if(data.msg=='OK')
                         {
-                            alert(data.msg+"：更新成功");
+                            alert(data.msg);
                             window.parent.location.reload();
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
                         }else{
-                            alert(data.msg+"：更新失败");
+                            alert(data.msg);
                         }
                     }
                 });

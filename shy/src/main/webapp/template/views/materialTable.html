@@ -45,9 +45,8 @@
 
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-    layui.use(['table','laydate','layer'], function(){
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'slider'], function(){
         const table = layui.table
-            ,layer = layui.layer
             ,laydate = layui.laydate;
         const $ = layui.jquery;
         table.render({
@@ -67,7 +66,7 @@
                 ,{field:'number', title:'数量', width:100}
                 ,{field:'total', title:'总价', width:100, sort: true, totalRow: true}
                 ,{field:'mstatus', title:'状态',width:100}
-                ,{field:'endaddress', title:'货源',width:150}
+                ,{field:'endaddress', title:'货源',width:180}
                 ,{fixed:'right', title:'操作', toolbar: '#barDemo', width:120}
 
             ]]
@@ -100,7 +99,7 @@
             table.reload('material', {
                 url: '/app/material/getMaterialByInf.action'
                 ,where: {
-                    mname : $('#mname').val() //提交的信息
+                     mname : $('#mname').val() //提交的信息
                     ,mSdate : $('#mdate').val()
                     ,mstatus: $('#mstatus').val()
                 }
@@ -133,7 +132,7 @@
 
         });
 
-        $('#addMaterial').on('click', function(){
+        $('#addOrder').on('click', function(){
             showModelWindow(layer,"addMaterial.html","900px","400px","新增材料订单","addmaterial");
         });
     });

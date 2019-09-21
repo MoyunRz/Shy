@@ -111,16 +111,18 @@
         table.on('tool(client_order)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
-               confirm('真的删除行么', function(index){
+                layer.confirm('真的删除行么', function(index){
                     table.reload('client_order', {
-                        url: '/app/clientorder/OrderdeleteById.action'//注销用户的接口
-                        ,where: {
-                            oid : data.oid      //提交的信息
+                        url: '/app/clientorder/OrderdeleteById.action'                        ,where: {
+                            oid : data.oid       //提交的信息
                         }
+                        ,page:
+                            {curr:1}
                     });
                     obj.del();
-                    close(index);
+                    layer.close(index);
                 });
+
             }
             else if(obj.event === 'edit'){
                 showModelWindowByData(layui.layer, 'addClientOrder.html', '900px', '500px', '编辑', 'editclientorder', data);

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常用的数据统计图</title>
+    <link rel="stylesheet" href="../assets/css/layui.css"  media="all">
+    <style type="text/css">
+
+        body{font-size:14px;color:#000;user-select:none;-webkit-user-select:none;-webkit-text-size-adjust:none;background-color:#fff;}
+
+        html,body{height:100%;}
+
+        *{font-family:"微软雅黑","华文细黑",Arial,Helvetica,sans-serif;}
+
+        a,input,div,textarea{outline:none;}
+
+        html,body,h1,h2,h3,h4,h5,h6,p,dl,dd,ol,ul,th,td,form,fieldset,input,button,textarea,a{margin:0;padding:0}
+
+        input,textarea,select{text-decoration:none;outline:0 none;resize:none;-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-appearance:none;border-radius:0;}
+
+        ul,dl,ol{list-style:none;}
+
+        ul,li{list-style:none;}
+
+        fieldset,img{border:0;}
+
+        a{text-decoration:none;outline:0 none;}
+
+        body{background-color:#faf9f4;}
+
+        p{color:#3d3d3d;font-size:20px;text-align:center;padding:100px 0 10px 0;}
+
+
+
+        #ring,#line,#pillar1,#pillar2{margin:0 auto;}
+
+        .null{padding-bottom:100px;}
+
+    </style>
+</head>
+
+<body>
+<div style="margin-top: 10px; margin-left: 10px" class="layui-form">
+    <div class="layui-form-item" >
+        <div class="layui-inline" >
+            <div class="layui-input-inline">
+                <input type="text"  id="tyear" lay-verify="required" lay-reqtext="请输入年份"
+                       placeholder="请输入年份" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn" id="btn-search">搜索</button>
+        </div>
+    </div>
+</div>
+<p>折线统计图</p>
+
+<div id="line" style="width:822px;height:492px;"></div>
+<div class="null"></div>
+
+</body>
+<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+<script src="../assets/layui.all.js"></script>
+<script type="text/javascript" src="../js/common.js" ></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.min.js"></script>
+
+<script>
+    var myDate = new Date();
+    var tYear = myDate.getFullYear();
+    var datas=[];
+    //折线图
+    var line = echarts.init(document.getElementById('line'));
+    $.ajax({
+        url: "/app/material/getYearlyPerformance.action"  //API接口
+        , type: "post"
+        , data:{
+            tYear: tYear
+        }
+        , dataType: "json"
+        , success: function (data) {
+            datas=[
+                data.data[1],
+                data.data[2],
+                data.data[3],
+                data.data[4],
+                data.data[5],
+                data.data[6],
+                data.data[7],
+                data.data[8],
+                data.data[9],
+                data.data[10],
+                data.data[11],
+                data.data[12]
+            ];
+
+
+            line.setOption({
+                color:["#2589d2"],
+                title: {
+                    x: 'left',
+                    text: '材料购买金额统计',
+                    textStyle: {
+                        fontSize: '20',
+                        color: '#4c4c4c',
+                        fontWeight: 'bolder'
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'horizontal',
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']}
+                    }
+                },
+
+                xAxis:  {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                    axisLabel: {
+                        interval:0
+                    }
+                },
+                yAxis: {
+                    show: false,
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} °C'
+                    }
+                },
+                series: [
+                    {
+                        name:'金额',
+                        type:'line',
+                        data:datas,
+                        markLine: {data: [{type: 'average', name: '平均值'}]}
+                    }
+                ]
+
+            }) ;
+        }
+    });
+
+    $('#btn-search').on('click',function () {
+        tYear=$('#tyear').val();
+        $.ajax({
+            url: "/app/material/getYearlyPerformance.action"  //API接口
+            , type: "post"
+            , data:{
+                tYear: tYear
+            }
+            , dataType: "json"
+            , success: function (data) {
+                datas=[
+                    data.data[1],
+                    data.data[2],
+                    data.data[3],
+                    data.data[4],
+                    data.data[5],
+                    data.data[6],
+                    data.data[7],
+                    data.data[8],
+                    data.data[9],
+                    data.data[10],
+                    data.data[11],
+                    data.data[12]
+                ];
+
+
+                line.setOption({
+                    color:["#2589d2"],
+                    title: {
+                        x: 'left',
+                        text: '材料购买金额统计',
+                        textStyle: {
+                            fontSize: '20',
+                            color: '#4c4c4c',
+                            fontWeight: 'bolder'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    toolbox: {
+                        show: true,
+                        orient: 'horizontal',
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']}
+                        }
+                    },
+
+                    xAxis:  {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                        axisLabel: {
+                            interval:0
+                        }
+                    },
+                    yAxis: {
+                        show: false,
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value} °C'
+                        }
+                    },
+                    series: [
+                        {
+                            name:'金额',
+                            type:'line',
+                            data:datas,
+                            markLine: {data: [{type: 'average', name: '平均值'}]}
+                        }
+                    ]
+
+                }) ;
+            }
+        });
+    });
+
+
+
+
+</script>
+
+</html>
