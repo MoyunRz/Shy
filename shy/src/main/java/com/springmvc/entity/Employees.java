@@ -11,7 +11,14 @@ public class Employees {
     private String  eaddress;
     private float   wage;
     private String  cdate;
+    private Integer del;
 
+    public Integer getDel() {
+        return del;
+    }
+    public void setDel(Integer del) {
+        this.del = del;
+    }
     public Integer getId() {
         return id;
     }

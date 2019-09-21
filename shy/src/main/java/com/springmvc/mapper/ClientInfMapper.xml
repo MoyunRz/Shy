@@ -13,6 +13,8 @@
         <result column="sex" property="sex" jdbcType="INTEGER" />
         <result column="endaddress" property="endaddress" jdbcType="VARCHAR" />
         <result column="ctype" property="ctype" jdbcType="VARCHAR" />
+        <result column="del" property="del" jdbcType="INTEGER"/>
+
     </resultMap>
 
     <!--查询指定行数据-->
@@ -29,6 +31,7 @@
         select
             *
         from clientinf
+        where del=1
     </select>
     <!--查询全部用户订单信息-->
     <select id="queryClientByInf" resultMap="ClientOrderMap">
@@ -51,6 +54,7 @@
             <if test="ctype != null">
                 and ctype = #{ctype}
             </if>
+            and del=1
         </where>
     </select>
 
@@ -65,16 +69,16 @@
         update clientinf
         <set>
             <if test="cname != null and cname != ''">
-               cname = #{cname},
+                cname = #{cname},
             </if>
             <if test="cposition != null">
                 cposition = #{cposition},
             </if>
             <if test="sex != null">
-               sex = #{sex},
+                sex = #{sex},
             </if>
             <if test="endaddress != null">
-               endaddress = #{endaddress},
+                endaddress = #{endaddress},
             </if>
             <if test="ctype != null">
                 ctype = #{ctype}
@@ -83,7 +87,11 @@
         where id = #{id}
     </update>
     <!-- 删除功能 -->
-    <delete id="deleteById">
-        delete from clientinf where id = #{id}
-    </delete>
+    <update id="deleteById">
+        update clientinf  set del = 0 where id = #{id}
+    </update>
+
+    <select id="CountAll" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM clientinf
+    </select>
 </mapper>

@@ -20,7 +20,7 @@ public class AccountController {
     private AccountService accountService;
 
     /**
-     * 查询所有订单
+     * 查询所有工资单
      * @param page 页码
      * @param limit 页条数
      * @return
@@ -30,7 +30,8 @@ public class AccountController {
     public LeeJSONResult getAccountAll(int page, int limit){
 
         PageHelper.startPage(page, limit);
-        List<Account> map = accountService.queryAllByLimit(page,limit);
+        List<Account> map = accountService.getAccountAll();
+
         if(map != null){
             PageInfo<Account> pageInfo =new PageInfo<Account>(map);
             return LeeJSONResult.pageBuild(0, (int) pageInfo.getTotal(),pageInfo.getList());
@@ -85,9 +86,10 @@ public class AccountController {
         boolean FT = accountService.deleteById(id);
         if(FT){
             List<Account>map = accountService.getAccountAll();
-            if(map != null){
+            if(map.size() >0 &&map!=null){
                 PageInfo<Account> pageInfo =new PageInfo<Account>(map);
                 return LeeJSONResult.pageBuild(0, (int) pageInfo.getTotal(),pageInfo.getList());
+
             }else{
                 return LeeJSONResult.ok(new HashMap<>());
             }
@@ -105,23 +107,22 @@ public class AccountController {
     @RequestMapping(value = "/getAccountByInf.action")
     @ResponseBody
     public LeeJSONResult getAccountByInf(  int page,
-                                             int limit,
-                                             String ename
-    ){
+                                           int limit,
+                                           String ename,
+                                           int wstatus){
         PageHelper.startPage(page, limit);
 
         Account account=new Account();
 
-        if(ename!=null){
+        if(ename!=null&&!ename.equals("")){
             account.setEname(ename);
+        }if(wstatus>=0){
+            account.setWstatus(wstatus);
         }
         List<Account> map = accountService.queryAccountByInf(account);
-        System.out.println(map);
-        if(map != null){
+        if(map.size()>0){
             PageInfo<Account> pageInfo =new PageInfo<Account>(map);
-
             return LeeJSONResult.pageBuild(0, (int) pageInfo.getTotal(),pageInfo.getList());
-
         }else{
             return LeeJSONResult.ok(new HashMap<>());
         }

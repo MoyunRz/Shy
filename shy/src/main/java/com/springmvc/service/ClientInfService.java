@@ -45,4 +45,6 @@ public interface ClientInfService {
      * @return 是否成功
      */
     boolean deleteById(String id);
+
+    int CountAll();
 }

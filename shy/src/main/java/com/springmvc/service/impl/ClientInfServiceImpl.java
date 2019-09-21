@@ -48,4 +48,9 @@ public class ClientInfServiceImpl implements ClientInfService {
     public boolean deleteById(String id) {
         return this.clientInfMapper.deleteById(id)>0;
     }
+
+    @Override
+    public int CountAll() {
+        return this.clientInfMapper.CountAll();
+    }
 }

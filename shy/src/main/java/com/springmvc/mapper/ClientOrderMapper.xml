@@ -17,6 +17,8 @@
         <result column="ostatus" property="ostatus" jdbcType="INTEGER"/>
         <result column="endaddress" property="endaddress" jdbcType="VARCHAR" />
         <result column="idea" property="idea" jdbcType="VARCHAR" />
+        <result column="del" property="del" jdbcType="INTEGER"/>
+
     </resultMap>
 
     <!--查询指定行数据-->
@@ -32,16 +34,17 @@
         select
             *
         from clientorder
+        where del=1
     </select>
 
     <!--查询全部用户订单信息-->
     <select id="queryClientOrderByInf" resultMap="ClientOrderMap">
         select
-            *
+        *
         from clientorder
         <where>
             <if test="cname != null and cname != ''">
-               and cname = #{cname}
+                and cname = #{cname}
             </if>
             <if test="cargo != null">
                 and cargo = #{cargo}
@@ -67,6 +70,7 @@
             <if test="idea != null">
                 and idea = #{idea}
             </if>
+            and del=1
         </where>
     </select>
 
@@ -114,7 +118,8 @@
     </update>
 
     <!-- 删除功能 -->
-    <delete id="OrderdeleteById">
-        delete from clientorder where oid = #{oid}
-    </delete>
+    <update id="OrderdeleteById">
+        update clientorder  set del = 0 where oid = #{oid}
+    </update>
+
 </mapper>

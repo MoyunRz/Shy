@@ -8,7 +8,14 @@ public class LifeSpend {
     private String useText;
     private float sum;
     private Date spendtime;
+    private Integer del;
 
+    public Integer getDel() {
+        return del;
+    }
+    public void setDel(Integer del) {
+        this.del = del;
+    }
     public LifeSpend() {
         super();
     }

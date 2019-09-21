@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/app/material")
@@ -136,5 +137,42 @@ public class MaterialController {
             return LeeJSONResult.ok(new HashMap<>());
         }
     }
+    @RequestMapping(value = "/getMonthlyPerformance.action")
+    @ResponseBody
+    public  LeeJSONResult getMonthlyPerformance(){
+        Double pay =0.0;
+        List<Material> map = materialService.getMaterialAll();
+        for (Material orders : map) {
+            pay+=Double.parseDouble(String.valueOf(orders.getTotal()));
+        }
 
+        Map<String,Double> num= new HashMap<String, Double>(1);
+        num.put("pay",pay);
+        return  LeeJSONResult.ok(num);
+
+    }
+
+    /**
+     * 统计每个月的销售额
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getYearlyPerformance.action")
+    @ResponseBody
+    public LeeJSONResult getYearlyPerformance(int tYear) {
+
+        Map<String, Double> performance = new HashMap<String, Double>(12);
+        for (int i = 1; i <= 12; i++) {
+            performance.put(String.valueOf(i), 0.0);
+        }
+        List<Material> map = materialService.getMaterialAll();
+        for (Material order : map) {
+            if ((order.getMdate().getYear() + 1900) == tYear) {
+                int month = order.getMdate().getMonth() + 1;
+                Double value = performance.get(String.valueOf(month));
+                performance.put(String.valueOf(month), value + Double.parseDouble(String.valueOf(order.getTotal())));
+            }
+        }
+        return LeeJSONResult.ok(performance);
+    }
 }

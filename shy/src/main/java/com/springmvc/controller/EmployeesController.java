@@ -31,7 +31,7 @@ public class EmployeesController {
     public LeeJSONResult getEmployeesAll(int page, int limit){
 
         PageHelper.startPage(page, limit);
-        List<Employees> map = employeesService.queryAllByLimit(page,limit);
+        List<Employees> map = employeesService.getEmployeesAll();
         if(map != null){
             PageInfo<Employees> pageInfo =new PageInfo<Employees>(map);
             return LeeJSONResult.pageBuild(0, (int) pageInfo.getTotal(),pageInfo.getList());
@@ -80,10 +80,10 @@ public class EmployeesController {
      */
     @RequestMapping(value = "/deleteById.action")
     @ResponseBody
-    public LeeJSONResult deleteById(int page, int limit,String id){
+    public LeeJSONResult deleteById(int page, int limit,int id){
         PageHelper.startPage(page, limit);
 
-        boolean FT = employeesService.deleteById(id);
+        boolean FT = employeesService.deleteById(id+"");
         if(FT){
             List<Employees>map = employeesService.getEmployeesAll();
             if(map != null){
@@ -107,8 +107,7 @@ public class EmployeesController {
     @ResponseBody
     public LeeJSONResult getEmployeesByInf(  int page,
                                              int limit,
-                                             String ename
-    ){
+                                             String ename){
         PageHelper.startPage(page, limit);
 
         Employees employees=new Employees();

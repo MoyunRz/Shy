@@ -9,7 +9,15 @@ public class Account {
     private float wage;
     private Date enddate;
     private Integer wstatus;
+    private Integer del;
 
+    public Integer getDel() {
+        return del;
+    }
+
+    public void setDel(Integer del) {
+        this.del = del;
+    }
     public Account() {
         super();
     }
@@ -62,15 +70,5 @@ public class Account {
         this.wstatus = wstatus;
     }
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", ename='" + ename + '\'' +
-                ", position='" + position + '\'' +
-                ", wage=" + wage +
-                ", enddate=" + enddate +
-                ", wstatus=" + wstatus +
-                '}';
-    }
+
 }

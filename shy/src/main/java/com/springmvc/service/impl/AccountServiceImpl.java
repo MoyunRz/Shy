@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class AccountServiceImpl implements AccountService {
     @Resource
-   AccountMapper accountMapper;
+    AccountMapper accountMapper;
 
     @Override
     public List<Account> queryAllByLimit(int offset, int limit) {

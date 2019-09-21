@@ -16,6 +16,8 @@
         <result column="master" property="master" jdbcType="VARCHAR" />
         <result column="endaddress" property="endaddress" jdbcType="VARCHAR" />
         <result column="ps" property="ps" jdbcType="VARCHAR" />
+        <result column="del" property="del" jdbcType="INTEGER"/>
+
     </resultMap>
 
 
@@ -32,6 +34,7 @@
         select
             *
         from material
+        where del=1
     </select>
 
     <!--查询全部用户订单信息-->
@@ -41,7 +44,7 @@
         from material
         <where>
             <if test="mname != null and mname != ''">
-                 mname = #{mname}
+                mname = #{mname}
             </if>
             <if test="mdate != null ">
                 and mdate = #{mdate}
@@ -49,6 +52,7 @@
             <if test="mstatus != null">
                 and mstatus = #{mstatus}
             </if>
+            and del=1
         </where>
     </select>
 
@@ -69,35 +73,37 @@
                 mdate = #{mdate},
             </if>
             <if test="price != null">
-                 price = #{price},
+                price = #{price},
             </if>
             <if test="number != null">
-                 number = #{number},
+                number = #{number},
             </if>
             <if test="total != null">
-                 total = #{total},
+                total = #{total},
             </if>
             <if test="mdate != null and mdate != ''">
                 mdate = #{mdate},
             </if>
             <if test="mstatus != null">
-                 mstatus = #{mstatus},
+                mstatus = #{mstatus},
             </if>
             <if test="endaddress != null">
-                 endaddress = #{endaddress},
+                endaddress = #{endaddress},
             </if>
             <if test="ps != null">
-                 ps = #{ps}
+                ps = #{ps}
             </if>
         </set>
         where id = #{id}
     </update>
 
     <!-- 删除功能 -->
-    <delete id="deleteById">
-        delete from material where id = #{id}
-    </delete>
-    
-    
+    <update id="deleteById">
+
+        update  material set del = 0  where id = #{id}
+
+    </update>
+
+
 
 </mapper>

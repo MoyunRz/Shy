@@ -15,7 +15,14 @@ public class ClientOrder {
     private Integer ostatus;
     private String endaddress;
     private String idea;
+    private Integer del;
 
+    public Integer getDel() {
+        return del;
+    }
+    public void setDel(Integer del) {
+        this.del = del;
+    }
     public ClientOrder() {
         super();
     }

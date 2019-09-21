@@ -11,6 +11,8 @@
         <result column="useText" property="useText" jdbcType="VARCHAR" />
         <result column="sum" property="sum" jdbcType="OTHER" />
         <result column="spendtime" property="spendtime" jdbcType="TIMESTAMP" />
+        <result column="del" property="del" jdbcType="INTEGER"/>
+
     </resultMap>
 
     <!--查询指定行数据-->
@@ -26,6 +28,7 @@
         select
             *
         from lifespend
+        where del=1
         order by id
     </select>
 
@@ -37,8 +40,9 @@
         <where>
 
             <if test="spendtime != null">
-               spendtime = #{spendtime}
+                spendtime = #{spendtime}
             </if>
+            and del=1
         </where>
     </select>
 
@@ -56,27 +60,18 @@
                 useText = #{useText},
             </if>
             <if test="sum != null ">
-                 sum = #{sum},
+                sum = #{sum},
             </if>
             <if test="spendtime != null">
-                 spendtime = #{spendtime},
+                spendtime = #{spendtime},
             </if>
         </set>
         where id = #{id}
     </update>
 
     <!-- 删除功能 -->
-    <delete id="deleteById">
-        delete from lifeSpend where id = #{id}
-    </delete>
-
-
-
-
-
-
-
-
-
+    <update id="deleteById">
+        update lifeSpend set del = 0 where id = #{id}
+    </update>
 
 </mapper>

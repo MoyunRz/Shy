@@ -13,35 +13,42 @@
         <result column="wage" property="wage" jdbcType="OTHER" />
         <result column="enddate" property="enddate" jdbcType="TIMESTAMP" />
         <result column="wstatus" property="wstatus" jdbcType="INTEGER"/>
+        <result column="del" property="del" jdbcType="INTEGER"/>
     </resultMap>
 
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="AccountMap">
         select
-            id,ename,position,wage,enddate,wstatus
+            *
         from account
         limit #{offset}, #{limit}
 
     </select>
-    <!--查询全部用户订单信息-->
+    <!--查询全部单信息-->
     <select id="queryAccountAll" resultMap="AccountMap">
         select
             *
         from account
+        where del=1
         order by id
     </select>
 
-    <!--查询全部用户订单信息-->
+    <!--查询全部信息-->
     <select id="queryAccountByInf" resultMap="AccountMap">
         select
         *
         from account
         <where>
 
-            <if test="ename != null">
+            <if test="ename != null and ename != ''">
                 ename = #{ename}
             </if>
+            <if test="wstatus != null">
+                and wstatus = #{wstatus}
+            </if>
+            and del=1
+
         </where>
     </select>
 
@@ -76,9 +83,9 @@
     </update>
 
     <!-- 删除功能 -->
-    <delete id="deleteById">
-        delete from account where id = #{id}
-    </delete>
+    <update id="deleteById">
+        update account  set del = 0 where id = #{id}
+    </update>
 
-    
+
 </mapper>

@@ -12,7 +12,14 @@ public class EHoliday {
     private Date    sdate;
     private Date    edate;
     private String    ps;
+    private Integer del;
 
+    public Integer getDel() {
+        return del;
+    }
+    public void setDel(Integer del) {
+        this.del = del;
+    }
     public EHoliday() {
         super();
     }

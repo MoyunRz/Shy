@@ -13,7 +13,14 @@ public class Material {
     private String  endaddress;
     private String  master;
     private String  ps;
+    private Integer del;
 
+    public Integer getDel() {
+        return del;
+    }
+    public void setDel(Integer del) {
+        this.del = del;
+    }
     public Material() {
         super();
     }

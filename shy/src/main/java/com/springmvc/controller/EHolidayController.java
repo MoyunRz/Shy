@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class EHolidayController {
     public LeeJSONResult getEHolidayAll(int page, int limit){
 
         PageHelper.startPage(page, limit);
-        List<EHoliday> map = eHolidayService.queryAllByLimit(page,limit);
+        List<EHoliday> map = eHolidayService.getEHolidayAll();
         if(map != null){
             PageInfo<EHoliday> pageInfo =new PageInfo<EHoliday>(map);
             return LeeJSONResult.pageBuild(0, (int) pageInfo.getTotal(),pageInfo.getList());
@@ -47,9 +50,18 @@ public class EHolidayController {
      */
     @RequestMapping(value = "/addEHoliday.action")
     @ResponseBody
-    public LeeJSONResult addEHoliday(EHoliday eHoliday){
+    public LeeJSONResult addEHoliday(EHoliday eHoliday) throws ParseException {
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // 日期格式
+        long time = eHoliday.getSdate().getTime(); // 得到指定日期的毫秒数
+        long  day = eHoliday.getHoliday()*24*60*60*1000; // 要加上的天数转换成毫秒数
+        time+=day; // 相加得到新的毫秒数
+        String edate=dateFormat.format(new Date(time)); // 将毫秒数转换成日期
+        Date dates=dateFormat.parse(edate); // 指定日期
+        java.sql.Date date = new java.sql.Date(dates.getTime());//进行日期的转换
+        eHoliday.setEdate(date);
         boolean eHoliday1 = eHolidayService.addEHoliday(eHoliday);
+
 
         if(eHoliday1){
             return LeeJSONResult.ok("添加成功");
@@ -57,17 +69,24 @@ public class EHolidayController {
             return LeeJSONResult.errorMsg("添加失败");
         }
     }
-
     /**
      * 更新数据
-     * @param EHoliday
+     * @param eHoliday
      * @return
      */
     @RequestMapping(value = "/upEHoliday.action")
     @ResponseBody
-    public LeeJSONResult upEHoliday(EHoliday EHoliday){
+    public LeeJSONResult upEHoliday(EHoliday eHoliday) throws ParseException {
 
-        boolean eHoliday1 = eHolidayService.update(EHoliday); //将更新数据传入
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // 日期格式
+        long time = eHoliday.getSdate().getTime(); // 得到指定日期的毫秒数
+        long  day = eHoliday.getHoliday()*24*60*60*1000; // 要加上的天数转换成毫秒数
+        time+=day; // 相加得到新的毫秒数
+        String edate=dateFormat.format(new Date(time)); // 将毫秒数转换成日期
+        Date dates=dateFormat.parse(edate); // 指定日期
+        java.sql.Date date = new java.sql.Date(dates.getTime());//进行日期的转换
+        eHoliday.setEdate(date);
+        boolean eHoliday1 = eHolidayService.update(eHoliday); //将更新数据传入
         if(eHoliday1){
             return LeeJSONResult.ok("更新成功");
         }else{
@@ -107,8 +126,8 @@ public class EHolidayController {
     @RequestMapping(value = "/getEHolidayByInf.action")
     @ResponseBody
     public LeeJSONResult getEHolidayByInf(  int page,
-                                           int limit,
-                                           String ename
+                                            int limit,
+                                            String ename
     ){
         PageHelper.startPage(page, limit);
 

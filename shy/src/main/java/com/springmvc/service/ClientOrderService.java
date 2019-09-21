@@ -13,9 +13,9 @@ public interface ClientOrderService {
      * @param limit 查询条数
      * @return 对象列表
      */
-     List<ClientOrder> queryAllByLimit(int offset, int limit);
+    List<ClientOrder> queryAllByLimit(int offset, int limit);
 
-     /**
+    /**
      * 根据用户名获取该用户预订的订单
      * @param
      * @return

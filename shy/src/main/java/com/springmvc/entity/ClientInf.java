@@ -9,7 +9,14 @@ public class ClientInf {
     private Integer sex;
     private String endaddress;
     private String ctype;
+    private Integer del;
 
+    public Integer getDel() {
+        return del;
+    }
+    public void setDel(Integer del) {
+        this.del = del;
+    }
     public ClientInf() {
         super();
     }

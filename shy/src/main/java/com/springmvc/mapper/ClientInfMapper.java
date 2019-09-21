@@ -50,4 +50,6 @@ public interface ClientInfMapper {
      * @return
      */
     List<ClientInf> queryClientByInf(ClientInf client);
+
+    int CountAll();
 }

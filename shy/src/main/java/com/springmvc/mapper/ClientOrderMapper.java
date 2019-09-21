@@ -15,13 +15,13 @@ public interface ClientOrderMapper {
      * @param limit 查询条数
      * @return 对象列表
      */
-     List<ClientOrder> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<ClientOrder> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
     /**
      * 查询全部用户订单信息
      * @return
      */
-     List<ClientOrder> queryClientOrderAll();
+    List<ClientOrder> queryClientOrderAll();
 
     /**
      * 新增数据
@@ -44,7 +44,7 @@ public interface ClientOrderMapper {
      * @param oid
      * @return
      */
-     int OrderdeleteById(String oid);
+    int OrderdeleteById(String oid);
 
     /**
      *  指定定信息查询

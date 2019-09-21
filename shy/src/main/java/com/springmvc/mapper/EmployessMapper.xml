@@ -13,15 +13,17 @@
         <result column="position" property="position" jdbcType="VARCHAR" />
         <result column="sex" property="sex" jdbcType="INTEGER" />
         <result column="age" property="age" jdbcType="INTEGER" />
-        <result column="eaddress" property="eaddress" jdbcType="VARCHAR" />
+        <result column="endaddress" property="endaddress" jdbcType="VARCHAR" />
         <result column="cdate" property="cdate" jdbcType="VARCHAR"/>
+        <result column="del" property="del" jdbcType="INTEGER"/>
+
     </resultMap>
 
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="EmployeesMap">
         select
-            id,ename,position,sex,age,eaddress,cdate
+            id,ename,position,sex,age,endaddress,cdate
         from employees
         limit #{offset}, #{limit}
 
@@ -31,7 +33,8 @@
         select
             *
         from employees
-        order by id 
+        where del=1
+        order by id
     </select>
 
     <!--查询全部用户订单信息-->
@@ -44,13 +47,14 @@
             <if test="ename != null">
                 ename = #{ename}
             </if>
+            and del=1
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="addEmployees" keyProperty="id" useGeneratedKeys="true" >
-        insert into employees( id,ename,position,sex,age,eaddress,cdate)
-        values (#{id},#{ename}, #{position}, #{sex}, #{age}, #{eaddress},#{cdate})
+        insert into employees( id,ename,position,ephone,sex,age,wage,endaddress,cdate)
+        values (#{id},#{ename}, #{position}, #{ephone},#{sex}, #{age},#{wage}, #{endaddress},#{cdate})
     </insert>
 
     <!--通过主键修改数据-->
@@ -69,8 +73,14 @@
             <if test="age != null">
                 age = #{age},
             </if>
-            <if test="eaddress != null">
-                eaddress = #{eaddress},
+            <if test="wage != null">
+                wage = #{wage},
+            </if>
+            <if test="ephone != null">
+                ephone = #{ephone},
+            </if>
+            <if test="endaddress != null">
+                endaddress = #{endaddress},
             </if>
             <if test="cdate != null">
                 cdate = #{cdate},
@@ -80,18 +90,9 @@
     </update>
 
     <!-- 删除功能 -->
-    <delete id="deleteById">
-        delete from employees where id = #{id}
-    </delete>
+    <update id="deleteById">
+        update employees set del = 0 where id = #{id}
 
-
-
-
-
-
-
-
-
-
+    </update>
 
 </mapper>

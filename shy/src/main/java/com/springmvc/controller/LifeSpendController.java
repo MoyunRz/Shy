@@ -108,7 +108,7 @@ public class LifeSpendController {
     public LeeJSONResult getLifeSpendByInf(  int page,
                                              int limit,
                                              Date spendtime
-                                             ){
+    ){
         PageHelper.startPage(page, limit);
 
         LifeSpend lifeSpend=new LifeSpend();
